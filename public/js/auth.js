@@ -81,6 +81,7 @@ export async function handleRegister(event) {
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        console.log('userCredential', userCredential);
         const user = userCredential.user;
 
         const userData = {

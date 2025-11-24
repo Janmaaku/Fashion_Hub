@@ -277,6 +277,7 @@ export function toggleCart() {
     const modal = document.getElementById('cartModal');
     if (!modal) return;
 
+    console.log('modal', modal);
     modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
 
     if (modal.style.display === 'block') {
