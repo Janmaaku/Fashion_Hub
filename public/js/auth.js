@@ -5,6 +5,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { updateUserUI } from './main.js';
 
 // Switch Login/Register Tabs
 export function switchAuth(type) {
@@ -51,7 +52,14 @@ export async function handleLogin(event) {
             }),
         );
 
-        alert('Login successful!');
+        // Redirect user based on role
+        if (userData.userRole === 0) {
+            window.location.href = 'index.php';
+        } else if (userData.userRole === 1) {
+            window.location.href = 'src/a/adminDashboard.html';
+        } else {
+            alert('Unknown user role. Please contact support.');
+        }
         toggleAuthModal();
     } catch (err) {
         alert('Login Failed: ' + err.message);
@@ -80,7 +88,7 @@ export async function handleRegister(event) {
             lastName: last,
             dob: dob,
             email: email,
-            userRole: 0,
+            userRole: 0, // 👈 DEFAULT: normal user
             createdAt: new Date().toISOString(),
         };
 
@@ -98,7 +106,14 @@ export async function handleRegister(event) {
         updateUserUI();
         toggleAuthModal();
 
-        alert('Account created successfully!');
+        // 🚀 Redirect based on userRole
+        if (userData.userRole === 0) {
+            window.location.href = 'index.php';
+        } else if (userData.userRole === 1) {
+            window.location.href = 'src/a/adminDashboard.html';
+        } else {
+            alert('Unknown user role. Please contact support.');
+        }
     } catch (err) {
         alert('Registration Failed: ' + err.message);
     }

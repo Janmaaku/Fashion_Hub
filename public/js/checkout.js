@@ -1,9 +1,9 @@
-import { addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { auth, db } from '../../firebase.js';
+import { doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { db } from '../../firebase.js';
 
 // ✅ Exported function so it can be imported in main.js
 export function loadCheckoutPage() {
-    const items = JSON.parse(localStorage.getItem('checkoutItems')) || [];
+    const cart = JSON.parse(localStorage.getItem('checkoutItems')) || [];
     const total = parseFloat(localStorage.getItem('checkoutTotal')) || 0;
 
     const cartContainer = document.getElementById('cartItemsContainer');
@@ -14,7 +14,7 @@ export function loadCheckoutPage() {
 
     if (!cartContainer) return; // Prevent running on non-checkout pages
 
-    if (items.length === 0) {
+    if (cart.length === 0) {
         cartContainer.innerHTML = `
             <div style="padding: 40px; text-align: center; color: #6c757d;">
                 No items found in your order.
@@ -23,7 +23,7 @@ export function loadCheckoutPage() {
     }
 
     // Render Cart Items
-    items.forEach((item) => {
+    cart.items.forEach((item) => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'cart-item';
         itemDiv.innerHTML = `
@@ -75,29 +75,30 @@ export function initializePayNow() {
     if (!payBtn) return; // Only run on checkout page
 
     payBtn.addEventListener('click', async () => {
-        const orderId = localStorage.getItem('latestOrderId');
+        const cart = JSON.parse(localStorage.getItem('checkoutItems')) || [];
 
-        console.log('orderId', orderId);
-        // if (!orderId) {
-        //     alert('No order found. Please checkout again.');
-        //     return;
-        // }
+        const orderNumber = cart.orderNumber;
+        console.log('orderNumber', orderNumber);
+        if (!orderNumber) {
+            alert('No order found. Please checkout again.');
+            return;
+        }
 
-        // try {
-        //     // Update Firestore order document
-        //     const orderRef = doc(db, 'orders', orderId);
+        try {
+            // Update Firestore order document
+            const orderRef = doc(db, 'orders', orderNumber);
 
-        //     await updateDoc(orderRef, {
-        //         paymentStatus: 'Paid',
-        //         orderStatus: 'In-transit',
-        //         paymentDate: new Date(),
-        //     });
+            await updateDoc(orderRef, {
+                paymentStatus: 'Paid',
+                orderStatus: 'In-transit',
+                paymentDate: new Date(),
+            });
 
-        //     // Redirect to success page
-        //     window.location.href = 'successPage.html';
-        // } catch (error) {
-        //     console.error('Payment Update Error:', error);
-        //     alert('Something went wrong while processing payment.');
-        // }
+            // Redirect to success page
+            window.location.href = 'successPage.html';
+        } catch (error) {
+            console.error('Payment Update Error:', error);
+            alert('Something went wrong while processing payment.');
+        }
     });
 }

@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Dashboard - Firestore</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Header -->
+        <div class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+                <p class="text-sm text-gray-600">Manage your store analytics and inventory</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8">
+                    <button
+                        onclick="showTab('analytics')"
+                        id="tab-analytics"
+                        class="tab-btn py-4 px-1 border-b-2 border-blue-500 text-blue-600 font-medium text-sm"
+                    >
+                        Analytics
+                    </button>
+                    <button
+                        onclick="showTab('orders')"
+                        id="tab-orders"
+                        class="tab-btn py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm"
+                    >
+                        User Orders
+                    </button>
+                    <button
+                        onclick="showTab('upload')"
+                        id="tab-upload"
+                        class="tab-btn py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm"
+                    >
+                        Upload Items
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content Container -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Analytics Tab -->
+            <div id="content-analytics" class="tab-content">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">Total Revenue</p>
+                                <p id="total-revenue" class="text-2xl font-bold text-gray-900">₱0.00</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <svg
+                                    class="w-6 h-6 text-blue-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">Total Orders</p>
+                                <p id="total-orders" class="text-2xl font-bold text-gray-900">0</p>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <svg
+                                    class="w-6 h-6 text-green-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">Avg Order Value</p>
+                                <p id="avg-order" class="text-2xl font-bold text-gray-900">₱0.00</p>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-full">
+                                <svg
+                                    class="w-6 h-6 text-purple-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">Total Customers</p>
+                                <p id="total-customers" class="text-2xl font-bold text-gray-900">0</p>
+                            </div>
+                            <div class="bg-yellow-100 p-3 rounded-full">
+                                <svg
+                                    class="w-6 h-6 text-yellow-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Monthly Sales (₱)</h3>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Weekly Orders</h3>
+                        <canvas id="ordersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="content-orders" class="tab-content hidden">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">User Orders</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Order ID
+                                    </th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Customer
+                                    </th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Items
+                                    </th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Total
+                                    </th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Order Status
+                                    </th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Date
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table" class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">Loading orders...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Tab -->
+            <div id="content-upload" class="tab-content hidden">
+                <div class="space-y-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center mb-6">
+                            <svg
+                                class="w-6 h-6 text-blue-600 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                ></path>
+                            </svg>
+                            <h3 class="text-lg font-semibold text-gray-900">Add New Item</h3>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
+                                <input
+                                    type="text"
+                                    id="item-name"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    placeholder="Enter item name"
+                                />
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Price (₱)</label>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        id="item-price"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        placeholder="0.00"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Stock</label>
+                                    <input
+                                        type="number"
+                                        id="item-stock"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        placeholder="0"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                onclick="addItem()"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                            >
+                                Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Current Items</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        >
+                                            ID
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        >
+                                            Name
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        >
+                                            Price
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        >
+                                            Stock
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        >
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="items-table" class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                            Loading items...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import {
+                collection,
+                addDoc,
+                getDocs,
+                deleteDoc,
+                doc,
+                onSnapshot,
+                updateDoc,
+            } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+            import { db } from '../../firebase.js';
+
+            let salesChart, ordersChart;
+
+            // Map userId → email
+            let usersMap = {};
+
+            // Tab switching
+            window.showTab = function (tabName) {
+                const tabs = document.querySelectorAll('.tab-content');
+                const tabBtns = document.querySelectorAll('.tab-btn');
+
+                tabs.forEach((tab) => tab.classList.add('hidden'));
+                tabBtns.forEach((btn) => {
+                    btn.classList.remove('border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+
+                document.getElementById(`content-${tabName}`).classList.remove('hidden');
+                document.getElementById(`tab-${tabName}`).classList.remove('border-transparent', 'text-gray-500');
+                document.getElementById(`tab-${tabName}`).classList.add('border-blue-500', 'text-blue-600');
+            };
+
+            // Update order status in Firestore
+            window.updateOrderStatus = async function (orderId, newStatus) {
+                try {
+                    const orderRef = doc(db, 'orders', orderId);
+                    await updateDoc(orderRef, { orderStatus: newStatus });
+
+                    alert('Order status updated to: ' + newStatus);
+                } catch (error) {
+                    console.error('Error updating status:', error);
+                    alert('Failed to update status: ' + error.message);
+                }
+            };
+            // Format currency
+            function formatPeso(amount) {
+                return (
+                    '₱' +
+                    parseFloat(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                );
+            }
+
+            // Get status badge color
+            function getStatusColor(status) {
+                const colors = {
+                    Completed: 'bg-green-100 text-green-800',
+                    Pending: 'bg-yellow-100 text-yellow-800',
+                    Processing: 'bg-blue-100 text-blue-800',
+                    Shipped: 'bg-purple-100 text-purple-800',
+                };
+                return colors[status] || 'bg-gray-100 text-gray-800';
+            }
+
+            async function loadUsers() {
+                const usersRef = collection(db, 'users');
+                const snapshot = await getDocs(usersRef);
+
+                usersMap = {}; // reset
+
+                snapshot.forEach((docSnap) => {
+                    usersMap[docSnap.id] = docSnap.data().email; // userId → email
+                });
+            }
+
+            // Load Orders from Firestore with real-time updates
+            function loadOrders() {
+                const ordersRef = collection(db, 'orders');
+
+                onSnapshot(
+                    ordersRef,
+                    (snapshot) => {
+                        const tbody = document.getElementById('orders-table');
+
+                        if (snapshot.empty) {
+                            tbody.innerHTML =
+                                '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">No orders found</td></tr>';
+                            updateAnalytics([]);
+                            return;
+                        }
+
+                        let html = '';
+                        const ordersArray = [];
+
+                        snapshot.forEach((docSnapshot) => {
+                            const order = docSnapshot.data();
+
+                            const orderId = docSnapshot.id;
+                            ordersArray.push(order);
+
+                            // Get email instead of userId
+                            const email = usersMap[order.userId] || 'Unknown Email';
+
+                            html += `
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#${orderId}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> ${email || 'Unknown Email'}</td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    ${order.items.map((i) => `${i.name} (x${i.qty})`).join(', ')}
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                                    ${formatPeso(order.totalAmount)}
+                                </td>
+
+                               <td class="px-6 py-4 whitespace-nowrap">
+                                <select 
+                                    onchange="updateOrderStatus('${orderId}', this.value)"
+                                    class="border rounded px-2 py-1 text-sm"
+                                >
+                                    <option value="Pending" ${order.orderStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Processing" ${order.orderStatus === 'In-transit' ? 'selected' : ''}>Processing</option>
+                                    <option value="Delivered" ${order.orderStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                </select>
+                            </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    ${order.createdAt.toDate().toLocaleString()}
+                                </td>
+                            </tr>
+                            `;
+                        });
+
+                        tbody.innerHTML = html;
+                        updateAnalytics(ordersArray);
+                    },
+                    (error) => {
+                        console.error('Error loading orders:', error);
+                        document.getElementById('orders-table').innerHTML =
+                            '<tr><td colspan="6" class="px-6 py-4 text-center text-red-500">Error loading orders</td></tr>';
+                    },
+                );
+            }
+
+            // Update Analytics
+            function updateAnalytics(orders) {
+                const totalRevenue = orders.reduce((sum, order) => sum + parseFloat(order.totalAmount || 0), 0);
+
+                const totalOrders = orders.length;
+                const avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+                const uniqueCustomers = new Set(orders.map((o) => o.userId)).size;
+
+                document.getElementById('total-revenue').textContent = formatPeso(totalRevenue);
+                document.getElementById('total-orders').textContent = totalOrders;
+                document.getElementById('avg-order').textContent = formatPeso(avgOrder);
+                document.getElementById('total-customers').textContent = uniqueCustomers;
+
+                updateCharts();
+            }
+
+            // Initialize and update charts
+            function updateCharts() {
+                const salesCtx = document.getElementById('salesChart');
+                const ordersCtx = document.getElementById('ordersChart');
+
+                if (salesChart) salesChart.destroy();
+                if (ordersChart) ordersChart.destroy();
+
+                salesChart = new Chart(salesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [
+                            {
+                                label: 'Sales',
+                                data: [45000, 52000, 48000, 61000, 55000, 67000],
+                                borderColor: 'rgb(59, 130, 246)',
+                                tension: 0.1,
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => '₱' + context.parsed.y.toLocaleString(),
+                                },
+                            },
+                        },
+                    },
+                });
+
+                ordersChart = new Chart(ordersCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [
+                            {
+                                label: 'Orders',
+                                data: [24, 32, 28, 45, 38, 52, 41],
+                                backgroundColor: 'rgb(16, 185, 129)',
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                    },
+                });
+            }
+
+            // Load Items from Firestore with real-time updates
+            function loadItems() {
+                const itemsRef = collection(db, 'items');
+
+                onSnapshot(
+                    itemsRef,
+                    (snapshot) => {
+                        const tbody = document.getElementById('items-table');
+
+                        if (snapshot.empty) {
+                            tbody.innerHTML =
+                                '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">No items found</td></tr>';
+                            return;
+                        }
+
+                        let html = '';
+                        snapshot.forEach((docSnapshot) => {
+                            const item = docSnapshot.data();
+                            const itemId = docSnapshot.id;
+
+                            html += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#${itemId}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">${formatPeso(item.price)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.stock}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <button onclick="window.deleteItem('${itemId}')" class="text-red-600 hover:text-red-900">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                        });
+
+                        tbody.innerHTML = html;
+                    },
+                    (error) => {
+                        console.error('Error loading items:', error);
+                        document.getElementById('items-table').innerHTML =
+                            '<tr><td colspan="5" class="px-6 py-4 text-center text-red-500">Error loading items</td></tr>';
+                    },
+                );
+            }
+
+            // Add Item to Firestore
+            window.addItem = async function () {
+                const name = document.getElementById('item-name').value;
+                const price = document.getElementById('item-price').value;
+                const stock = document.getElementById('item-stock').value;
+
+                if (!name || !price || !stock) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                try {
+                    const itemsRef = collection(db, 'items');
+                    await addDoc(itemsRef, {
+                        name: name,
+                        price: parseFloat(price),
+                        stock: parseInt(stock),
+                    });
+
+                    document.getElementById('item-name').value = '';
+                    document.getElementById('item-price').value = '';
+                    document.getElementById('item-stock').value = '';
+                    alert('Item added successfully!');
+                } catch (error) {
+                    console.error('Error adding item:', error);
+                    alert('Error adding item: ' + error.message);
+                }
+            };
+
+            // Delete Item from Firestore
+            window.deleteItem = async function (itemId) {
+                if (confirm('Are you sure you want to delete this item?')) {
+                    try {
+                        const itemRef = doc(db, 'items', itemId);
+                        await deleteDoc(itemRef);
+                        alert('Item deleted successfully!');
+                    } catch (error) {
+                        console.error('Error deleting item:', error);
+                        alert('Error deleting item: ' + error.message);
+                    }
+                }
+            };
+
+            // Initialize on page load
+            window.addEventListener('load', async () => {
+                await loadUsers(); // 👈 load user emails first
+                loadOrders(); // 👈 now orders can match emails
+                loadItems();
+            });
+        </script>
+    </body>
+</html>

@@ -14,7 +14,7 @@
         <nav>
             <div class="logo">Fashion Hub</div>
             <ul class="nav-links">
-                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="/Fashion_Hub/index.php" >Home</a></li>
                 <li><a href="#" onclick="showSection('products')">Shop</a></li>
                 <li><a href="#" onclick="showSection('about')">About</a></li>
             </ul>
@@ -27,13 +27,28 @@
                 🛒
                 <span class="cart-badge" id="cartCount">0</span>
             </button>
+
+               <div class="user-dropdown hidden" id="userDropdown">
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="src/b/profile.html" class="dropdown-item" id="profileBtn">
+                            <span class="icon">👤</span>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button class="dropdown-item logout" id="logoutBtn">
+                            <span class="icon">🚪</span>
+                            <span>Sign Out</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
           </div>
 
         </nav>
         
-           <div class="user-dropdown hidden" id="userDropdown">
-                <button id="logoutBtn">Sign Out</button>
-            </div>
+        
     </header>
 
     <!-- Hero Carousel -->
@@ -159,7 +174,8 @@
 </div>
 
  
-<script type="module" src="../../public/js/main.js"></script>
+<!-- <script type="module" src="../../public/js/main.js"></script> -->
+<script type="module" src="public/js/main.js"></script>
 
 </body>
 </html>

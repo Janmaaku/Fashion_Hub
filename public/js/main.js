@@ -4,6 +4,8 @@ import { switchAuth, handleLogin, handleRegister } from './auth.js';
 import { moveCarousel, goToSlide } from './carousel.js';
 import { toggleAuthModal } from './modal.js';
 import { initializePayNow, loadCheckoutPage } from './checkout.js';
+import { signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { auth } from '../../firebase.js';
 
 // Expose functions to HTML
 window.switchAuth = switchAuth;
@@ -38,6 +40,9 @@ export function updateUserUI() {
 
         // Logout
         document.getElementById('logoutBtn').onclick = () => {
+            signOut(auth);
+            localStorage.clear(); // optional
+            location.reload(); // refresh UI
             localStorage.removeItem('userData');
             dropdown.classList.add('hidden');
             authBtn.textContent = '👤';
