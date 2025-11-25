@@ -30,7 +30,7 @@ export function loadCheckoutPage() {
             <div class="item-image">
                 ${
                     item.image
-                        ? `<img src="/public/${item.image}" alt="${item.name}">`
+                        ? `<img src="/${item.image}" alt="${item.name}">`
                         : `
                 <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
                     <rect width="120" height="120" fill="#e9ecef"/>
