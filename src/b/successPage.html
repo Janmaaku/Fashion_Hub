@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order Successful - Fashion Hub</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .success-container {
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                max-width: 600px;
+                width: 100%;
+                padding: 40px;
+                text-align: center;
+                animation: slideUp 0.6s ease-out;
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .lottie-animation {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto 20px;
+            }
+
+            h1 {
+                color: #2d3748;
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+
+            .success-message {
+                color: #718096;
+                font-size: 16px;
+                margin-bottom: 30px;
+                line-height: 1.6;
+            }
+
+            .order-details {
+                background: #f7fafc;
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 30px;
+                text-align: left;
+            }
+
+            .order-details h2 {
+                color: #2d3748;
+                font-size: 20px;
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .order-info {
+                display: grid;
+                gap: 12px;
+            }
+
+            .info-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .info-row:last-child {
+                border-bottom: none;
+            }
+
+            .info-label {
+                color: #718096;
+                font-size: 14px;
+            }
+
+            .info-value {
+                color: #2d3748;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .order-items {
+                max-height: 200px;
+                overflow-y: auto;
+                margin-top: 15px;
+            }
+
+            .order-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                background: white;
+                border-radius: 8px;
+                margin-bottom: 8px;
+            }
+
+            .item-name {
+                color: #2d3748;
+                font-size: 14px;
+            }
+
+            .item-qty {
+                color: #718096;
+                font-size: 13px;
+            }
+
+            .action-buttons {
+                display: grid;
+                gap: 12px;
+                margin-top: 20px;
+            }
+
+            .btn {
+                padding: 14px 28px;
+                border: none;
+                border-radius: 10px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            }
+
+            .btn-secondary {
+                background: white;
+                color: #667eea;
+                border: 2px solid #667eea;
+            }
+
+            .btn-secondary:hover {
+                background: #f7fafc;
+            }
+
+            .status-badge {
+                display: inline-block;
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+                background: #48bb78;
+                color: white;
+            }
+
+            @media (max-width: 640px) {
+                .success-container {
+                    padding: 30px 20px;
+                }
+
+                h1 {
+                    font-size: 24px;
+                }
+
+                .lottie-animation {
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="success-container">
+            <h1>🎉 Order Successful!</h1>
+            <p class="success-message">
+                Thank you for your purchase! Your order has been confirmed and is now being processed. We'll send you
+                updates on your order status.
+            </p>
+
+            <div class="order-details">
+                <h2>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                    </svg>
+                    Order Details
+                </h2>
+
+                <div class="order-info">
+                    <div class="info-row">
+                        <span class="info-label">Order Number</span>
+                        <span class="info-value" id="orderNumber">Loading...</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Order Status</span>
+                        <span class="status-badge">In Transit</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Payment Status</span>
+                        <span class="status-badge">Paid</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Total Amount</span>
+                        <span class="info-value" id="totalAmount">₱0.00</span>
+                    </div>
+                </div>
+
+                <div class="order-items" id="orderItems"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="trackOrderBtn" class="btn btn-primary">Track Order Status</button>
+                <a href="/index.html" class="btn btn-secondary"> Continue Shopping </a>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+        <script>
+            // Load Lottie Animation
+            const animation = lottie.loadAnimation({
+                container: document.getElementById('lottie'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: true,
+                path: 'https://lottie.host/82e4ec92-f74d-4efc-858f-1bb4e1ab785a/i0VrPtqSEe.json', // Success checkmark animation
+            });
+
+            // Load order data from localStorage
+            window.addEventListener('DOMContentLoaded', () => {
+                const cart = JSON.parse(localStorage.getItem('checkoutItems'));
+
+                if (!cart) {
+                    document.getElementById('orderNumber').textContent = 'N/A';
+                    document.getElementById('totalAmount').textContent = '₱0.00';
+                    return;
+                }
+
+                // Display order number
+                document.getElementById('orderNumber').textContent = cart.orderNumber || 'N/A';
+
+                // Calculate and display total
+                const subtotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const shipping = 50.0;
+                const tax = subtotal * 0.12;
+                const total = subtotal + shipping + tax;
+                document.getElementById('totalAmount').textContent = `₱${total.toFixed(2)}`;
+
+                // Display order items
+                const orderItemsContainer = document.getElementById('orderItems');
+                cart.items.forEach((item) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'order-item';
+                    itemDiv.innerHTML = `
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-qty">Qty: ${item.quantity} × ₱${item.price.toFixed(2)}</span>
+                `;
+                    orderItemsContainer.appendChild(itemDiv);
+                });
+
+                // Clear checkout items after successful order
+                localStorage.removeItem('checkoutItems');
+                localStorage.removeItem('checkoutTotal');
+                localStorage.removeItem('cart');
+            });
+
+            // Clear cart when "Continue Shopping" is clicked
+            document.querySelector('.btn-secondary').addEventListener('click', () => {
+                localStorage.removeItem('cart');
+                localStorage.removeItem('carts');
+                localStorage.removeItem('checkoutItems');
+                localStorage.removeItem('checkoutTotal');
+            });
+
+            // Track order button - check authentication before redirecting
+            document.getElementById('trackOrderBtn').addEventListener('click', () => {
+                // You can add authentication check here if needed
+                window.location.href = 'profile.html';
+                localStorage.removeItem('carts');
+                localStorage.removeItem('checkoutItems');
+                localStorage.removeItem('checkoutTotal');
+                localStorage.removeItem('cart');
+            });
+        </script>
+    </body>
+</html>
