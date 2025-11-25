@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { db } from '../../firebase.js';
+import { db } from '../firebase.js';
 
 // ✅ Exported function so it can be imported in main.js
 export function loadCheckoutPage() {
@@ -30,7 +30,7 @@ export function loadCheckoutPage() {
             <div class="item-image">
                 ${
                     item.image
-                        ? `<img src="/fashion_hub/${item.image}" alt="${item.name}">`
+                        ? `<img src="/public/${item.image}" alt="${item.name}">`
                         : `
                 <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
                     <rect width="120" height="120" fill="#e9ecef"/>

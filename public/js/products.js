@@ -1,12 +1,12 @@
 export const products = [
-    { id: 1, name: 'Classic T-Shirt', price: 29.99, category: 'men', image: 'public/assets/img/products/f1.jpg' },
-    { id: 2, name: 'Summer Dress', price: 49.99, category: 'women', image: 'public/assets/img/products/f2.jpg' },
-    { id: 3, name: 'Denim Jeans', price: 59.99, category: 'men', image: 'public/assets/img/products/f3.jpg' },
-    { id: 4, name: 'Leather Jacket', price: 129.99, category: 'women', image: 'public/assets/img/products/f4.jpg' },
-    { id: 5, name: 'Sneakers', price: 79.99, category: 'accessories', image: 'public/assets/img/products/f5.jpg' },
-    { id: 6, name: 'Handbag', price: 89.99, category: 'accessories', image: 'public/assets/img/products/f6.jpg' },
-    { id: 7, name: 'Polo Shirt', price: 39.99, category: 'men', image: 'public/assets/img/products/f7.jpg' },
-    { id: 8, name: 'Sunglasses', price: 149.99, category: 'accessories', image: 'public/assets/img/products/f8.jpg' },
+    { id: 1, name: 'Classic T-Shirt', price: 29.99, category: 'men', image: 'assets/img/products/f1.jpg' },
+    { id: 2, name: 'Summer Dress', price: 49.99, category: 'women', image: 'assets/img/products/f2.jpg' },
+    { id: 3, name: 'Denim Jeans', price: 59.99, category: 'men', image: 'assets/img/products/f3.jpg' },
+    { id: 4, name: 'Leather Jacket', price: 129.99, category: 'women', image: 'assets/img/products/f4.jpg' },
+    { id: 5, name: 'Sneakers', price: 79.99, category: 'accessories', image: 'assets/img/products/f5.jpg' },
+    { id: 6, name: 'Handbag', price: 89.99, category: 'accessories', image: 'assets/img/products/f6.jpg' },
+    { id: 7, name: 'Polo Shirt', price: 39.99, category: 'men', image: 'assets/img/products/f7.jpg' },
+    { id: 8, name: 'Sunglasses', price: 149.99, category: 'accessories', image: 'assets/img/products/f8.jpg' },
 ];
 
 // ✅ DEFAULT PARAMETER FIX

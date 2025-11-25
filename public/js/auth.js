@@ -1,4 +1,3 @@
-import { auth, db } from '../../firebase.js';
 import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
@@ -6,6 +5,7 @@ import {
 
 import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { updateUserUI } from './main.js';
+import { auth, db } from '../firebase.js';
 
 // Switch Login/Register Tabs
 export function switchAuth(type) {
@@ -54,7 +54,7 @@ export async function handleLogin(event) {
 
         // Redirect user based on role
         if (userData.userRole === 0) {
-            window.location.href = 'index.php';
+            window.location.href = 'index.html';
         } else if (userData.userRole === 1) {
             window.location.href = 'src/a/adminDashboard.html';
         } else {

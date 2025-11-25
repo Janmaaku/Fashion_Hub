@@ -10,7 +10,7 @@ import {
     getDownloadURL,
     uploadString,
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
-import { auth, db, storage } from '../../firebase.js';
+import { auth, db, storage } from '../firebase.js';
 import { toggleAuthModal } from './modal.js';
 
 export let cart = [];
@@ -130,7 +130,7 @@ export async function checkout() {
 
         // If no new items, just redirect to cart page
         if (newItems.length === 0) {
-            window.location.href = 'src/b/cartPage.html';
+            window.location.href = 'b/cartPage.html';
             return;
         }
 
@@ -197,7 +197,7 @@ export async function checkout() {
             const modal = document.getElementById('cartModal');
             if (modal) modal.style.display = 'none';
 
-            window.location.href = 'src/b/cartPage.html';
+            window.location.href = 'b/cartPage.html';
         } catch (error) {
             console.error('Update Order Error:', error);
             alert('Something went wrong while updating your order. Try again.');
@@ -266,7 +266,7 @@ export async function checkout() {
         const modal = document.getElementById('cartModal');
         if (modal) modal.style.display = 'none';
 
-        window.location.href = 'src/b/cartPage.html';
+        window.location.href = 'b/cartPage.html';
     } catch (error) {
         console.error('Checkout Error:', error);
         alert('Something went wrong while placing your order. Try again.');
